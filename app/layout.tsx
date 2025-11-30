@@ -4,6 +4,7 @@ import "./globals.css";
 import { ConvexClientProvider } from "@/lib/providers/ConvexClientProvider";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ModeToggle } from "@/components/theme/mode-toggle";
+import { AuthProvider } from "@/lib/providers/AuthContextProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,10 +38,12 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ConvexClientProvider>
-            <div className="fixed top-4 right-4">
-              <ModeToggle />
-            </div>
-            {children}
+            <AuthProvider>
+              <div className="fixed top-4 right-4">
+                <ModeToggle />
+              </div>
+              {children}
+            </AuthProvider>
           </ConvexClientProvider>
         </ThemeProvider>
       </body>

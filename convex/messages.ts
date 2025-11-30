@@ -1,4 +1,4 @@
-import { action, query } from "./_generated/server";
+import { action, mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
 /**
@@ -12,7 +12,9 @@ export const getDownloadUrl = action({
     const url = await ctx.storage.getUrl(args.storageId);
 
     if (!url) {
-      throw new Error(`Could not retrieve URL for storage ID: ${args.storageId}`);
+      throw new Error(
+        `Could not retrieve URL for storage ID: ${args.storageId}`
+      );
     }
 
     return url;
@@ -28,5 +30,14 @@ export const getMyMessages = query({
       .query("messages")
       .withIndex("by_recipient", (q) => q.eq("recipientId", args.recipientId))
       .collect();
+  },
+});
+
+export const markAsViewed = mutation({
+  args: {
+    messageId: v.id("messages"),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.messageId, { isViewed: true });
   },
 });
