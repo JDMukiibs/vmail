@@ -12,7 +12,7 @@ export const getDownloadUrl = action({
     const url = await ctx.storage.getUrl(args.storageId);
 
     if (!url) {
-      throw new Error("Could not retrieve URL for storage ID.");
+      throw new Error(`Could not retrieve URL for storage ID: ${args.storageId}`);
     }
 
     return url;
@@ -20,11 +20,10 @@ export const getDownloadUrl = action({
 });
 
 export const getMyMessages = query({
-  args: { 
-    recipientId: v.id("friends"), 
+  args: {
+    recipientId: v.id("friends"),
   },
   handler: async (ctx, args) => {
-    // Use the indexed query defined in the schema for fast fetching
     return await ctx.db
       .query("messages")
       .withIndex("by_recipient", (q) => q.eq("recipientId", args.recipientId))
