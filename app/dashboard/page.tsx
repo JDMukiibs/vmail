@@ -126,11 +126,7 @@ export default function DashboardPage() {
                 </CardTitle>
                 <Badge
                   variant={message.isViewed ? "secondary" : "default"}
-                  className={`shrink-0 ${
-                    message.isViewed
-                      ? "bg-secondary text-secondary-foreground"
-                      : "bg-primary text-primary-foreground"
-                  }`}
+                  className={`shrink-0`}
                 >
                   {message.isViewed ? (
                     <div className="flex items-center gap-1">

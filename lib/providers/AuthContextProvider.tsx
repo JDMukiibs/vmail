@@ -51,10 +51,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     router.replace("/");
   }, [router]);
 
-  const login = (id: string, name: string) => {
+  const login = useCallback((id: string, name: string) => {
     setFriendSession(id, name);
     setSession({ id, name });
-  };
+  }, []);
 
   useEffect(() => {
     if (isLoading) return;
