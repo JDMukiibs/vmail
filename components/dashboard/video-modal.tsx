@@ -95,11 +95,6 @@ export function VideoModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      {/* 
-        Updated ClassName: 
-        - bg-white dark:bg-slate-950 ensures solid opaque background 
-        - shadow-xl adds depth since we removed transparency
-      */}
       <DialogContent className="max-w-4xl max-h-[90vh] p-0 bg-white dark:bg-slate-950 border-border shadow-xl">
         <DialogHeader className="p-4 sm:p-6 pb-4">
           <DialogTitle className="text-lg sm:text-xl font-semibold text-foreground">

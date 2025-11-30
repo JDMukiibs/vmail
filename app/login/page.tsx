@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/providers/AuthContextProvider";
 import { setFriendSession } from "@/lib/auth/auth-utils";
@@ -40,7 +40,7 @@ export default function LoginPage() {
     return "";
   }, [codeToVerify, authResult, attemptedCode]);
 
-  useMemo(() => {
+  useEffect(() => {
     if (authResult && codeToVerify) {
       const { id, name } = authResult;
       setFriendSession(id, name);
@@ -49,8 +49,13 @@ export default function LoginPage() {
     }
   }, [authResult, codeToVerify, login, router]);
 
+  useEffect(() => {
+    if (session) {
+      router.replace("/dashboard");
+    }
+  }, [session, router]);
+
   if (session) {
-    router.replace("/dashboard");
     return null;
   }
 
