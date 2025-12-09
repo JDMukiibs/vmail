@@ -12,7 +12,6 @@ export default function DashboardLayout({
 }) {
   const { logout, isLoading } = useAuth();
 
-  // Show loading state while checking auth
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-linear-to-br from-cyan-50 via-teal-50 to-emerald-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
@@ -26,11 +25,9 @@ export default function DashboardLayout({
 
   return (
     <div className="min-h-screen bg-linear-to-br from-cyan-50 via-teal-50 to-emerald-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
-      {/* Header */}
       <header className="bg-card/80 backdrop-blur-sm border-b border-border/50 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo - Left aligned */}
+          <div className="flex justify-between items-center h-14 sm:h-16">
             <div className="flex items-center space-x-3">
               <div className="relative h-8 w-8 sm:h-10 sm:w-10">
                 <Image
@@ -47,7 +44,6 @@ export default function DashboardLayout({
               </div>
             </div>
 
-            {/* Logout button - Right side */}
             <Button
               variant="outline"
               size="sm"

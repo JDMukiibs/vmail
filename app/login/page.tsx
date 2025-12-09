@@ -81,7 +81,6 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4 py-8">
       <Card className="w-full max-w-md shadow-lg border-0 bg-card">
         <CardHeader className="space-y-6 text-center pb-8">
-          {/* Logo Container */}
           <div className="mx-auto flex h-20 w-20 items-center justify-center bg-primary/10 rounded-2xl">
             <div className="relative h-14 w-14">
               <Image
@@ -94,13 +93,12 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Title and Description */}
           <div className="space-y-3">
             <CardTitle className="text-3xl font-bold text-foreground">
               VMail by Joshua
             </CardTitle>
             <CardDescription className="text-muted-foreground text-base leading-relaxed">
-              Enter your access code to view your personal video messages
+              Enter your access code to view your personal video message
             </CardDescription>
           </div>
         </CardHeader>
