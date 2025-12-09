@@ -24,13 +24,11 @@ export default function DashboardPage() {
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Fetch user's messages
   const messages = useQuery(
     api.messages.getMyMessages,
     session ? { recipientId: session.id as Id<"friends"> } : "skip"
   );
 
-  // Actions for video operations
   const getDownloadUrl = useAction(api.messages.getDownloadUrl);
   const markAsViewed = useMutation(api.messages.markAsViewed);
 
@@ -95,7 +93,6 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      {/* Header - Centered with user info */}
       <div className="text-center space-y-4">
         <div>
           <h1 className="text-3xl font-bold text-foreground mb-2">
@@ -112,7 +109,6 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      {/* Messages Grid - Fixed responsive layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {messages.map((message) => (
           <Card
@@ -121,7 +117,7 @@ export default function DashboardPage() {
           >
             <CardHeader className="space-y-3">
               <div className="flex items-start justify-between gap-3">
-                <CardTitle className="text-lg font-semibold text-card-foreground leading-tight flex-1 min-w-0">
+                <CardTitle className="text-lg font-semibold text-card-foreground leading-tight flex-1 min-w-0 wrap-break-word whitespace-normal">
                   {message.title}
                 </CardTitle>
                 <Badge
@@ -144,10 +140,10 @@ export default function DashboardPage() {
             </CardHeader>
 
             <CardContent className="space-y-3">
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <Button
                   onClick={() => handleWatchVideo(message)}
-                  className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground transition-colors hover:cursor-pointer"
+                  className="w-full sm:flex-1 bg-primary hover:bg-primary/90 text-primary-foreground transition-colors hover:cursor-pointer"
                 >
                   <Play className="h-4 w-4 mr-2" />
                   Watch Now
@@ -156,10 +152,11 @@ export default function DashboardPage() {
                 <Button
                   variant="outline"
                   onClick={() => handleDownload(message)}
-                  className="px-4 hover:bg-muted transition-colors hover:cursor-pointer"
+                  className="w-full sm:w-auto px-4 hover:bg-muted transition-colors hover:cursor-pointer"
                   title="Download video"
                 >
                   <Download className="h-4 w-4" />
+                  Save Video
                 </Button>
               </div>
             </CardContent>
@@ -167,7 +164,6 @@ export default function DashboardPage() {
         ))}
       </div>
 
-      {/* Video Modal */}
       <VideoModal
         message={selectedMessage}
         isOpen={isModalOpen}
