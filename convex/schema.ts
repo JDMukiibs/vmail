@@ -5,6 +5,9 @@ export default defineSchema({
   friends: defineTable({
     name: v.string(),
     accessCode: v.string(),
+    bibleVerse: v.optional(
+      v.object({ text: v.string(), reference: v.string() })
+    ),
   }).index("by_code", ["accessCode"]),
 
   messages: defineTable({

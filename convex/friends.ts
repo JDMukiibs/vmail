@@ -25,3 +25,17 @@ export const authenticateByCode = query({
     return null;
   },
 });
+
+export const getMyBibleVerse = query({
+  args: {
+    friendId: v.id("friends"),
+  }, handler: async (ctx, args) => {
+    const friend = await ctx.db.get(args.friendId)
+
+    if (friend) {
+      return friend.bibleVerse;
+    }
+
+    return null;
+  }
+})

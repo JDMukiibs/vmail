@@ -7,9 +7,10 @@ import { api } from "@/convex/_generated/api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Play, Download, Eye, Clock } from "lucide-react";
+import { Play, Download, Eye, Clock, ChevronDown } from "lucide-react";
 import { VideoModal } from "@/components/dashboard/video-modal";
 import type { Id } from "@/convex/_generated/dataModel";
+import { Merriweather } from "next/font/google";
 
 interface Message {
   _id: Id<"messages">;
@@ -18,6 +19,12 @@ interface Message {
   title: string;
   isViewed: boolean;
 }
+
+const merri = Merriweather({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+});
 
 export default function DashboardPage() {
   const { session } = useAuth();
@@ -28,9 +35,15 @@ export default function DashboardPage() {
     api.messages.getMyMessages,
     session ? { recipientId: session.id as Id<"friends"> } : "skip"
   );
+  const bibleVerse = useQuery(
+    api.friends.getMyBibleVerse,
+    session ? { friendId: session.id as Id<"friends"> } : "skip"
+  );
 
   const getDownloadUrl = useAction(api.messages.getDownloadUrl);
   const markAsViewed = useMutation(api.messages.markAsViewed);
+
+  const [verseCollapsed, setVerseCollapsed] = useState(false);
 
   const handleWatchVideo = (message: Message) => {
     setSelectedMessage(message);
@@ -96,7 +109,7 @@ export default function DashboardPage() {
       <div className="text-center space-y-4">
         <div>
           <h1 className="text-3xl font-bold text-foreground mb-2">
-            Welcome, {session.name}
+            Hi, {session.name}
           </h1>
           <h2 className="text-xl font-semibold text-foreground/80">
             Your Video Messages
@@ -109,11 +122,55 @@ export default function DashboardPage() {
         </p>
       </div>
 
+      {/* Bible verse card (uses Merriweather font, responsive, collapsible) */}
+      {bibleVerse && (
+        <div className="flex justify-center px-4">
+          <Card
+            className="w-full max-w-3xl bg-card/90 backdrop-blur-sm border-border/50 opacity-0 animate-slide-up"
+            style={{ animationDelay: "80ms" }}
+          >
+            <CardContent>
+              <div className="flex justify-end">
+                <button
+                  aria-expanded={!verseCollapsed}
+                  onClick={() => setVerseCollapsed((s) => !s)}
+                  className="p-1 rounded hover:bg-muted/60"
+                >
+                  <ChevronDown
+                    className={`h-5 w-5 transition-transform duration-200 ${
+                      verseCollapsed ? "" : "rotate-180"
+                    }`}
+                  />
+                </button>
+              </div>
+
+              <div
+                className={`overflow-hidden transition-[max-height,opacity] duration-300 ${
+                  verseCollapsed ? "max-h-0 opacity-0" : "max-h-96 opacity-100"
+                }`}
+              >
+                <blockquote
+                  className={`${merri.className} italic text-center text-lg sm:text-xl md:text-2xl leading-relaxed text-foreground`}
+                >
+                  {bibleVerse.text}
+                </blockquote>
+                {bibleVerse.reference && (
+                  <div className="mt-3 text-right text-sm text-muted-foreground">
+                    — {bibleVerse.reference}
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {messages.map((message) => (
+        {messages.map((message, idx) => (
           <Card
             key={message._id}
-            className="group hover:shadow-xl transition-all duration-300 bg-card/90 backdrop-blur-sm border-border/50 hover:scale-[1.02] transform"
+            className={`group hover:shadow-xl transition-all duration-300 bg-card/90 backdrop-blur-sm border-border/50 hover:scale-[1.02] transform opacity-0 animate-fade-in`}
+            style={{ animationDelay: `${idx * 80}ms` }}
           >
             <CardHeader className="space-y-3">
               <div className="flex items-start justify-between gap-3">
