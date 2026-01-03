@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "VMail by Joshua",
-  description: "Joshua's Close Friend's Vmail Client",
+  description: "You've Got Mail :)",
 };
 
 export default function RootLayout({
